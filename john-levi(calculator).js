@@ -1,9 +1,11 @@
 import readline from "readline";
+
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
+// calculator function
 const operations = {
   "+": (a, b) => a + b,
   "-": (a, b) => a - b,
@@ -24,10 +26,12 @@ const calculate = (input) => {
   try {
     input = input.trim();
 
+    //  Check if input is empty
     if (!input) {
       throw new Error("Empty input. Please enter a calculation expression.");
     }
 
+    //  expression format
     const regex = /^(-?\d+\.?\d*)\s*([\+\-\*\/\%\^]|\*\*)\s*(-?\d+\.?\d*)$/;
     const match = input.match(regex);
 
@@ -45,12 +49,15 @@ const calculate = (input) => {
       throw new Error("Invalid numbers provided");
     }
 
+    //  check if operrator is valid or not
     if (!operations[operator]) {
       throw new Error("Unsupported Operator");
     }
 
+    //  perform calculation
     const result = operations[operator](num1, num2);
 
+    //  check for invalid results
     if (!isFinite(result)) {
       throw new Error("Result is not a finite number");
     }
@@ -85,6 +92,7 @@ const startCalculator = () => {
     rl.question("Calculate: ", (input) => {
       const command = input.trim().toLowerCase();
 
+      // Handle commands
       if (command === "exit" || command === "quit") {
         rl.close();
         return;
