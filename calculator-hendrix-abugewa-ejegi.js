@@ -1,3 +1,8 @@
+const readline = require('node:readline/promises');
+const { stdin: input, stdout: output } = require('node:process');
+
+const rl = readline.createInterface({ input, output });
+
 /**
  * Performs a basic arithmetic operation on two numbers.
  *
@@ -6,23 +11,9 @@
  * @param {'add' | 'subtract' | 'divide' | 'multiply'} op - The operation to perform.
  * @returns {number} The result of the calculation.
  *
- * @throws {Error} If `a`, `b` or `op` is undefined.
- * @throws {TypeError} If `a` or `b` is not a number.
  * @throws {Error} If `op` is not a valid operation.
  */
 function calculator(a, b, op) {
-  if (a === undefined || b === undefined || op === undefined) {
-    throw new Error('calculator was called with missing arguments');
-  }
-
-  if (typeof a !== 'number' || isNaN(a)) {
-    throw new TypeError('Parameter a must be a number');
-  }
-
-  if (typeof b !== 'number' || isNaN(b)) {
-    throw new TypeError('Parameter b must be a number');
-  }
-
   switch (op) {
     case 'add':
       return a + b;
@@ -45,9 +36,32 @@ function calculator(a, b, op) {
   }
 }
 
-try {
-  const result = calculator(2, 5, 'subtract');
-  console.log(result);
-} catch (error) {
-  console.error(error.message);
-}
+const run = async () => {
+  try {
+    const arg1 = parseInt(await rl.question('Enter the first operand: '));
+    const arg2 = parseInt(await rl.question('Enter the second operand: '));
+    const op = await rl.question(
+      'Enter a valid operation (add | subtract | divide | multiply): '
+    );
+    rl.close();
+
+    if (isNaN(arg1)) {
+      throw new TypeError('Parameter a must be a number');
+    }
+
+    if (isNaN(arg2)) {
+      throw new TypeError('Parameter b must be a number');
+    }
+
+    if (!op) {
+      throw new Error('Stopping process due to undefined operation');
+    }
+
+    const result = calculator(arg1, arg2, op);
+    console.log(result);
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+run();
