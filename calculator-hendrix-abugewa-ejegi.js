@@ -38,19 +38,19 @@ function calculator(a, b, op) {
 
 const run = async () => {
   try {
-    const arg1 = parseInt(await rl.question('Enter the first operand: '));
-    const arg2 = parseInt(await rl.question('Enter the second operand: '));
+    const arg1 = parseInt(await rl.question('Enter the first operand, a: '));
+    const arg2 = parseInt(await rl.question('Enter the second operand, b: '));
     const op = await rl.question(
       'Enter a valid operation (add | subtract | divide | multiply): '
     );
     rl.close();
 
     if (isNaN(arg1)) {
-      throw new TypeError('Parameter a must be a number');
+      throw new TypeError('Operand a must be a number');
     }
 
     if (isNaN(arg2)) {
-      throw new TypeError('Parameter b must be a number');
+      throw new TypeError('Operand b must be a number');
     }
 
     if (!op) {
