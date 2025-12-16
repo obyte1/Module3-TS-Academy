@@ -1,25 +1,23 @@
 const readline = require("readline");
 
 const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+  input: process.stdin,
+  output: process.stdout
 });
 
-rl.question(`what is your first number: `, (num) => {
-    rl.question(`what is your second number: `, (num2) => {
+function askquestion(question) {
+  return new Promise((resolve) => {
+    rl.question(question,(answer) => {
+      resolve(answer);
+    });
+  });
+}
 
-        const result = parseInt(num) + parseInt(num2);
+function closeInput() {
+  rl.close();
+}
 
-    console.log(`your answer is: ${result}`);
-    
-    rl.close();
-
-});
-});
-
-// rl.question('Enter your forst number: ', (num) => {
-//     rl.question('Enter your second number: ', (num2) => {
-//         const result = parseInt(num) + parseInt(num2);
-//     console.log(`you answer is: ${result}`);
-//     rl.close();
-// });
+module.exports = {
+  askquestion,
+  closeInput,
+};
