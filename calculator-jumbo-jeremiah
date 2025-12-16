@@ -1,0 +1,74 @@
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+// Utility function to safely ask questions
+function ask(question) {
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => resolve(answer.trim()));
+  });
+}
+
+// Validate number input
+function isValidNumber(value) {
+  return !isNaN(value) && value !== "";
+}
+
+// Perform calculation safely
+function calculate(a, b, operator) {
+  switch (operator) {
+    case "+":
+      return a + b;
+    case "-":
+      return a - b;
+    case "*":
+      return a * b;
+    case "/":
+      if (b === 0) return "Error: Division by zero is not allowed.";
+      return a / b;
+    case "%":
+      if (b === 0) return "Error: Modulo by zero is not allowed.";
+      return a % b;
+    default:
+      return "Error: Invalid operator.";
+  }
+}
+
+async function main() {
+  try {
+    const firstInput = await ask("Enter first number: ");
+    if (!isValidNumber(firstInput)) {
+      console.log("Error: First input is not a valid number.");
+      return;
+    }
+
+    const operator = await ask("Enter operator (+, -, *, /, %): ");
+    if (!["+", "-", "*", "/", "%"].includes(operator)) {
+      console.log("Error: Unsupported operator.");
+      return;
+    }
+
+    const secondInput = await ask("Enter second number: ");
+    if (!isValidNumber(secondInput)) {
+      console.log("Error: Second input is not a valid number.");
+      return;
+    }
+
+    const num1 = Number(firstInput);
+    const num2 = Number(secondInput);
+
+    const result = calculate(num1, num2, operator);
+    console.log("Result:", result);
+  } catch (error) {
+    console.log("Unexpected error occurred. Please try again.");
+  } finally {
+    rl.close();
+  }
+}
+
+main();
+
+
