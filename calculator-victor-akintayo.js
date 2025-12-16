@@ -1,3 +1,5 @@
+const readline = require('readline');
+
 //function to validate operands
 function validateOperands(operand1, operand2) {
     if (typeof operand1 !== 'number' || typeof operand2 !== 'number') {
@@ -48,4 +50,17 @@ function calculator(operand1, operand2, operator) {
 }
 
 // Example usage:
-console.log(calculator(10, 5, '+'));
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.question("Enter first number: ", (num1) => {
+    rl.question("Enter operator (+, -, *, /): ", (op) => {
+        rl.question("Enter second number: ", (num2) => {
+            const result = calculator(parseFloat(num1), parseFloat(num2), op);
+            console.log("Result:", result);
+            rl.close();
+        });
+    });
+});
