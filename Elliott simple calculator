@@ -1,0 +1,90 @@
+import readline from 'readline';
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+function askoperation() {
+    rl.question(`enter operation (+, -, *, /) or "exit" to quit`, (operation) => {
+        
+        operation = operation.trim().toLowerCase();
+            if (operation === "exit"){
+
+                rl.close();
+                return;
+        }  
+
+        rl.question(`enter first number:`, (num1str) => {
+            const num1 = parseFloat(num1str);
+            if (isNaN(num1)) {
+                console.log("invalid number. please try again.");
+                askoperation();
+                return;
+            }
+
+            rl.question(`enter second number:`, (num2str) => {
+                const num2 = parseFloat(num2str);
+                if (isNaN(num2)) {
+                    console.log("invalid number. please try again.");
+                    askoperation();
+                    return;
+                }
+
+                let result;
+                switch (operation) {
+                    case '+':
+                        result = num1 + num2;
+                        break;
+
+                    case '-':
+                        result = num1 - num2;
+                        break;
+
+                    case '*':
+                        result = num1 * num2;
+                        break;
+
+                    case '/':
+                        if (num2 === 0) {
+                            console.log("error: division by zero is not allowed.");
+                            askoperation();
+                            return;
+                        }
+                        result = num1 / num2;
+                        break;
+
+                    default:
+                        console.log("invalid operation. please try again.");
+                        askoperation();
+                        return;
+                }
+
+                console.log(`result: ${result}`);
+                askoperation();
+            });
+        });
+
+
+
+
+
+
+
+
+    });
+
+
+}
+
+console.log("simple calculator");
+askoperation();
+
+rl.on('close', () => {
+    console.log("calculator exited.");
+    process.exit(0);
+});
+
+
+
+
+
