@@ -7,16 +7,17 @@ const rl = readline.createInterface({
 
 let a, b;
 const validOperators = ["+", "-", "*", "/"];
+let c;
 
 /*Function does the following:
-1) Ask user for the first number: Line 19
+1) Ask user for the first number: Line 19 
 2) Validate input to ensure it's a number Line 20-22
 3) Convert input to a number and store it in variable 'a': Line 24
 4) Invokes a callback function to ask for the second number: Line 26
 */
 function askFirstNumber() {
   rl.question("Enter your first number: ", (input) => {
-    if (isNaN(input)) {
+    if (isNaN(input) || input.trim() === "") {
       console.log("Invalid input. Please enter a valid number.");
       askFirstNumber();
     } else {
@@ -35,7 +36,7 @@ function askFirstNumber() {
 */
 function askSecondNumber() {
   rl.question("Enter your second number: ", (input) => {
-    if (isNaN(input)) {
+    if (isNaN(input) || input.trim() === "") {
       console.log("Invalid input. Please enter a valid number.");
       askSecondNumber();
     } else {
